@@ -40,7 +40,7 @@ obj.AddChild(typeof(Player), typeof(Friendly), typeof(AI)); // Creates a new Gam
 Enumerate Resources
 ===================
 
-![enumerate resources](http://i.imgur.com/4dSArWY.png)
+![enumerate resources](http://i.imgur.com/OlkmYR6.png)
 
 Enumerate Resources is a handy util for creating type-safe resource references. Traditionally you have to manually create constant strings to load resources at runtime:
 

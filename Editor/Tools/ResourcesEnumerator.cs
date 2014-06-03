@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace UnityHelpers
 {
-    public class GameResourcesGenerator : EditorWindow
+    public class ResourcesEnumerator : EditorWindow
     {
         private const string FileTemplate = @"using System;
 using System.Collections.Generic;
@@ -34,7 +34,8 @@ namespace &&NAMESPACE&&
         public static void Init()
         {
             // Get existing open window or if none, make a new one:		
-            var window = new GameResourcesGenerator();
+            var window = new ResourcesEnumerator();
+            window.title = "Enumerate Resources";
             window.outputPath = EditorPrefs.GetString("UnityHelpers_GenerateResources_pathToSaveTo");
             window.pathToResourcesFolder = EditorPrefs.GetString("UnityHelpers_GenerateResources_pathToResourcesFolder");
             window.outputNamespace = EditorPrefs.GetString("UnityHelpers_GenerateResources_outputNamespace");
