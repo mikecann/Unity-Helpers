@@ -38,13 +38,6 @@ namespace UnityHelpers
             return r[0].gameObject;
         }
 
-        public static GameObject InstantiateResource(GameObject parent, string resource)
-        {
-            var obj = (GameObject)GameObject.Instantiate(Resources.Load(resource));
-            if (parent != null) obj.transform.parent = parent.transform;
-            return obj;
-        }
-
         public static Texture2D MakeTexture2D(int width, int height, Color col)
         {
             Color[] pix = new Color[width * height];

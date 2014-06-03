@@ -115,6 +115,18 @@ namespace UnityHelpers
         }
 
         /// <summary>
+        /// Loads a resource and adds it as a child
+        /// </summary>
+        /// <param name="resourcePath">The path to the resource to load</param>
+        /// <returns></returns>
+        public static GameObject LoadChild(this GameObject parent, string resourcePath)
+        {
+            var obj = (GameObject)GameObject.Instantiate(Resources.Load(resourcePath));
+            if (obj!=null) obj.transform.parent = parent.transform;
+            return obj;
+        }
+
+        /// <summary>
         /// Focuses the camera on a point in 2D space (just transforms the x and y to match the target)
         /// </summary>
         /// <param name="camera"></param>
