@@ -37,7 +37,9 @@ var player = obj.AddChild<Player>("Dave"); // Creates a new GameObject named "Da
 obj.AddChild(typeof(Player), typeof(Friendly), typeof(AI)); // Creates a new GameObject and adds a number of components
 ```
 
-There are many other utils and extensions, checkout the source: https://github.com/mikecann/Unity-Helpers/tree/master/Scripts
+There are many other utils and extensions, and more to come.
+
+Checkout the source for more info: https://github.com/mikecann/Unity-Helpers/tree/master/Scripts
 
 Tests
 =====
