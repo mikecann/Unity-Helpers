@@ -37,6 +37,33 @@ var player = obj.AddChild<Player>("Dave"); // Creates a new GameObject named "Da
 obj.AddChild(typeof(Player), typeof(Friendly), typeof(AI)); // Creates a new GameObject and adds a number of components
 ```
 
+Enumerate Resources
+===================
+
+![enumerate resources](https://www.dropbox.com/s/zadi89urrj34mwf/enumerate-resources.png)
+
+Enumerate Resources is a handy util for creating type-safe resource references. Traditionally you have to manually create constant strings to load resources at runtime:
+
+```
+Resources.Load("Prefabs/Cars/Porsche");
+```
+
+This is fragile. If the asset is moved you wont know about the crash until you run the game, this line of code may not be executed often and hence introduces a bug that may only present itself at a later date.
+
+Enumerate Resources scans a resources directory and generates a type-safe alternative:
+
+```
+Resources.Load(GameResources.Prefabs.Cars.Porsche);
+```
+
+Now if you move the resource and run the enumerator you will get a compile error.
+
+For added sugar there is a method to add the loaded resource as a child of a game object (handy for prefabs):
+
+```
+obj.LoadChild(GameResources.Prefabs.Icons.IndicatorArror);
+```
+
 There are many other utils and extensions, and more to come.
 
 Checkout the source for more info: https://github.com/mikecann/Unity-Helpers/tree/master/Scripts
