@@ -46,40 +46,13 @@ namespace UnityHelpers
             result.SetPixels(pix);
             result.Apply();
             return result;
-        }
-
-        public static uint ColorToUInt(Color32 color)
-        {
-            return (uint)((color.a << 24) | (color.r << 16) |
-                          (color.g << 8) | (color.b << 0));
-        }
-
-        public static Color32 UIntToColor(uint color)
-        {
-            return new Color32()
-            {
-                a = (byte)(color >> 24),
-                r = (byte)(color >> 16),
-                g = (byte)(color >> 8),
-                b = (byte)(color >> 0)
-            };
-        }
+        }               
 
         public static GameObject GetObjectUnderScreenPoint(Vector2 screenPos)
         {
             var r = GetSpriteRenderersUnderScreenPoint(screenPos);
             if (r.Count == 0) return null;
             return r[0].gameObject;
-
-            //Ray ray = Camera.main.ScreenPointToRay(screenPos);
-
-            //var hits = new List<RaycastHit2D>(Physics2D.RaycastAll(ray.origin, ray.direction));
-            //hits.RemoveAll(h => h.transform.gameObject.Get<SpriteRenderer>() == null);
-            //hits.Sort((a, b) => b.transform.gameObject.Get<SpriteRenderer>().sortingOrder - a.transform.gameObject.Get<SpriteRenderer>().sortingOrder);
-            //var hit = hits.FirstOrDefault();
-
-            //if (hit) return hit.transform.gameObject;
-            //return null;
         }
     }
 }

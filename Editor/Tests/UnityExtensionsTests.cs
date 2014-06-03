@@ -161,5 +161,16 @@ namespace UnityHelpers.Tests
             Assert.AreEqual(2, all.Count());
             Assert.AreEqual(parent.transform, child.transform.parent);
         }
+
+        [Test]
+        public void ConvertsColor()
+        {
+            var original = new Color(0.1f, 0.2f, 0.3f, 0.3f);
+            var newColor = original.ToUInt().ToColor();
+            Assert.IsTrue(newColor.r > original.r - 0.01 && newColor.r < original.r + 0.01);
+            Assert.IsTrue(newColor.g > original.g - 0.01 && newColor.g < original.g + 0.01);
+            Assert.IsTrue(newColor.b > original.b - 0.01 && newColor.b < original.b + 0.01);
+            Assert.IsTrue(newColor.a > original.a - 0.01 && newColor.a < original.a + 0.01);
+        }
     }
 }

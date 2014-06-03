@@ -123,5 +123,33 @@ namespace UnityHelpers
         {
             camera.transform.position = new Vector3(target.transform.localPosition.x, target.transform.localPosition.y, Camera.main.transform.position.z);
         }
+
+        /// <summary>
+        /// Converts a uint to a color
+        /// </summary>
+        /// <param name="color">The uint to convert</param>
+        /// <returns></returns>
+        public static uint ToUInt(this Color color)
+        {
+            Color32 c32 = color;
+            return (uint)((c32.a << 24) | (c32.r << 16) |
+                          (c32.g << 8) | (c32.b << 0));
+        }
+
+        /// <summary>
+        /// Converts a color to a uint
+        /// </summary>
+        /// <param name="color">The uint to convert</param>
+        /// <returns></returns>
+        public static Color ToColor(this uint color)
+        {
+            return new Color32()
+            {
+                a = (byte)(color >> 24),
+                r = (byte)(color >> 16),
+                g = (byte)(color >> 8),
+                b = (byte)(color >> 0)
+            };
+        }
     }
 }
