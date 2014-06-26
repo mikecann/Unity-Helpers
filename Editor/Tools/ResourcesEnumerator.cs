@@ -68,9 +68,9 @@ namespace &&NAMESPACE&&
             EditorPrefs.SetString("UnityHelpers_GenerateResources_outputNamespace", outputNamespace);
         }
 
-        private static string GetClass(string path, string className, int depth)
+        private string GetClass(string path, string className, int depth)
         {
-            var assetPaths = new List<string>(AssetDatabase.FindAssets("*.*", new[] { "Assets/Content/Resources" })).ConvertAll(guid => AssetDatabase.GUIDToAssetPath(guid));
+            var assetPaths = new List<string>(AssetDatabase.FindAssets("*.*", new[] { "Assets/" + pathToResourcesFolder })).ConvertAll(guid => AssetDatabase.GUIDToAssetPath(guid));
             var classes = new List<string>();
             var files = new List<string>();
 
@@ -96,7 +96,8 @@ namespace &&NAMESPACE&&
                 var fileName = Path.GetFileName(f);
                 var fileExtension = Path.GetExtension(f);
                 var varName = Path.GetFileNameWithoutExtension(f).Replace(" ", "");
-                var strPath = Path.GetDirectoryName(f).Replace("Assets/Content/Resources/", "") + "/" + Path.GetFileNameWithoutExtension(f);
+                if (Char.IsNumber(varName[0])) varName = "_" + varName;
+                var strPath = Path.GetDirectoryName(f).Replace("Assets/" + pathToResourcesFolder, "") + "/" + Path.GetFileNameWithoutExtension(f);
                 if (fileExtension == ".unity") strPath = Path.GetFileNameWithoutExtension(f);
                 return "\tpublic const string " + varName + " = \"" + strPath + "\";";                
             }));
