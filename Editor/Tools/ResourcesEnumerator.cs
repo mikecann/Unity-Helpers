@@ -39,7 +39,7 @@ namespace &&NAMESPACE&&
             window.outputPath = EditorPrefs.GetString("UnityHelpers_GenerateResources_pathToSaveTo");
             window.pathToResourcesFolder = EditorPrefs.GetString("UnityHelpers_GenerateResources_pathToResourcesFolder");
             window.outputNamespace = EditorPrefs.GetString("UnityHelpers_GenerateResources_outputNamespace");
-            if (String.IsNullOrEmpty(window.outputPath)) window.outputPath = "Scripts";
+            if (String.IsNullOrEmpty(window.outputPath)) window.outputPath = "Scripts/GameResources.cs";
             if (String.IsNullOrEmpty(window.pathToResourcesFolder)) window.pathToResourcesFolder = "Resources";
             if (String.IsNullOrEmpty(window.outputNamespace)) window.outputNamespace = "UnityHelpers";
                         
@@ -55,9 +55,9 @@ namespace &&NAMESPACE&&
             if (GUILayout.Button("Enumerate", GUILayout.Height(50)))
             {
                 var classes = new List<string>();
-                var c = GetClass("Assets/" + pathToResourcesFolder, "GameResources", 0);
+                var c = GetClass("Assets/" + pathToResourcesFolder, Path.GetFileNameWithoutExtension(outputPath), 0);
                 c = String.Join("\n", c.Split('\n').ToList().ConvertAll(l => "\t" + l).ToArray());
-                File.WriteAllText(Application.dataPath + "/" + outputPath + "/GameResources.cs", FileTemplate.Replace("&&CLASSES&&", c).Replace("&&NAMESPACE&&", outputNamespace));
+                File.WriteAllText(Application.dataPath + "/" + outputPath, FileTemplate.Replace("&&CLASSES&&", c).Replace("&&NAMESPACE&&", outputNamespace));
                 AssetDatabase.Refresh();
                 Close();
             }
@@ -97,7 +97,9 @@ namespace &&NAMESPACE&&
                 var fileExtension = Path.GetExtension(f);
                 var varName = Path.GetFileNameWithoutExtension(f).Replace(" ", "");
                 if (Char.IsNumber(varName[0])) varName = "_" + varName;
+                varName = varName.Replace("-", "Minus");
                 var strPath = Path.GetDirectoryName(f).Replace("Assets/" + pathToResourcesFolder, "") + "/" + Path.GetFileNameWithoutExtension(f);
+                if (strPath[0] == '/') strPath = strPath.Substring(1);
                 if (fileExtension == ".unity") strPath = Path.GetFileNameWithoutExtension(f);
                 return "\tpublic const string " + varName + " = \"" + strPath + "\";";                
             }));

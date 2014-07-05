@@ -1,5 +1,4 @@
 ﻿using Assets.Scripts.Core.Helpers;
-using Assets.Scripts.Editor.Tests;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -11,7 +10,7 @@ using UnityEngine;
 
 namespace UnityHelpers.Tests
 {
-    public class UnityUtilsTests : BaseUnitTest
+    public class UnityUtilsTests : UnityUnitTest
     {
         [SetUp]
         public void Init()
