@@ -46,6 +46,37 @@ namespace UnityHelpers
             result.SetPixels(pix);
             result.Apply();
             return result;
-        }             
+        }
+
+
+        /// <summary>
+        /// Copies a component using reflection into a destination. 
+        /// Borrowed from: http://answers.unity3d.com/questions/458207/copy-a-component-at-runtime.html
+        /// </summary>
+        /// <param name="original">The original component to copy from</param>
+        /// <param name="destination">The destination object to copy the componet to</param>
+        /// <param name="illegalDeclaringTypes">A List of declaring types from which the property or field should not be copied from</param>
+        /// <returns></returns>
+        public static Component CopyComponent(Component original, GameObject destination, List<Type> illegalDeclaringTypes)
+        {
+            var type = original.GetType();
+            var copy = destination.AddComponent(type);
+
+            foreach (var field in type.GetFields())
+            {
+                if (illegalDeclaringTypes.Contains(field.DeclaringType)) continue;     
+                field.SetValue(copy, field.GetValue(original));
+            }
+
+            foreach (var property in type.GetProperties())
+            {
+                if (property == null) continue;
+                if (!property.CanWrite) continue;
+                if(illegalDeclaringTypes.Contains(property.DeclaringType)) continue;               
+                property.SetValue(copy, property.GetValue(original, null), null);
+            }
+
+            return copy;
+        }
     }
 }

@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Game.Views.Data;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -75,7 +74,7 @@ namespace Assets.Libraries.UnityHelpers.Editor.Tools
                 path = path.Replace(Path.GetFileName(AssetDatabase.GetAssetPath(Selection.activeObject)), "");
             }
 
-            string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath(path + "/New " + t.ToString() + ".asset");
+            string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath(path + "/"+t.Name + ".asset");
 
             AssetDatabase.CreateAsset(asset, assetPathAndName);
 
