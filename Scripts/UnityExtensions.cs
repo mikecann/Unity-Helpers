@@ -122,7 +122,19 @@ namespace UnityHelpers
         public static GameObject LoadChild(this GameObject parent, string resourcePath)
         {
             var obj = (GameObject)GameObject.Instantiate(Resources.Load(resourcePath));
-            if (obj!=null) obj.transform.parent = parent.transform;
+            if (obj != null && parent!=null) obj.transform.parent = parent.transform;
+            return obj;
+        }
+
+        /// <summary>
+        /// Loads a resource and adds it as a child
+        /// </summary>
+        /// <param name="resourcePath">The path to the resource to load</param>
+        /// <returns></returns>
+        public static GameObject LoadChild(this Transform parent, string resourcePath)
+        {
+            var obj = (GameObject)GameObject.Instantiate(Resources.Load(resourcePath));
+            if (obj != null && parent != null) obj.transform.parent = parent;
             return obj;
         }
 
