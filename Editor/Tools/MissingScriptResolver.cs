@@ -42,7 +42,7 @@ This component's properties are shown below to help you determine which script i
 
 	#region Menu add-ins 
 
-	[MenuItem( "Window/Find Missing Scripts In Prefabs", priority = 1 )]
+	[MenuItem( "Unity Helpers/Find Missing Scripts In Prefabs", priority = 1 )]
 	public static void FindMissingScriptsInPrefabs()
 	{
 
@@ -102,7 +102,7 @@ This component's properties are shown below to help you determine which script i
 
 	}
 
-	[MenuItem( "Window/Find Missing Scripts In Scene", priority = 0 )]
+	[MenuItem( "Unity Helpers/Find Missing Scripts In Scene", priority = 0 )]
 	public static void FindMissingScriptsInScene()
 	{
 		

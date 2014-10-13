@@ -79,6 +79,37 @@ namespace UnityHelpers
             }
 
             return copy;
+        }        
+
+        public static T Instantiate<T>() where T : Component
+        {
+            var obj = new GameObject();
+            return obj.AddComponent<T>();
+        }
+
+        public static T Instantiate<T>(GameObject prefab) where T : Component
+        {
+            return Instantiate(prefab).GetComponent<T>();
+        }
+
+        public static T Load<T>(string resourcePath) where T : Component
+        {
+            var obj = Instantiate((GameObject)Resources.Load(resourcePath));
+            return obj.GetComponent<T>();
+        }
+
+        public static GameObject Load(string resourcePath)
+        {
+            return Instantiate((GameObject)Resources.Load(resourcePath));
+        }
+
+        public static GameObject Instantiate(GameObject prefab)
+        {
+#if UNITY_EDITOR
+            return (GameObject)UnityEditor.PrefabUtility.InstantiatePrefab(prefab);
+#else
+            return (GameObject)GameObject.Instantiate(prefab);
+#endif
         }
     }
 }

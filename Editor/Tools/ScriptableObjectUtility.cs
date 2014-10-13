@@ -12,7 +12,7 @@ namespace Assets.Libraries.UnityHelpers.Editor.Tools
     {
         private bool isOpen;
 
-        [MenuItem("UnityHelpers/Create Asset")]
+        [MenuItem("Unity Helpers/Create Asset")]
         public static void CreateAsset()
         {
             GetWindow<ScriptableObjectUtility>();

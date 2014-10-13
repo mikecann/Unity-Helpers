@@ -30,7 +30,7 @@ namespace &&NAMESPACE&&
         public string pathToResourcesFolder;
         public string outputNamespace;
 
-        [MenuItem("UnityHelpers/Enumerate Resources")]
+        [MenuItem("Unity Helpers/Enumerate Resources")]
         public static void Init()
         {
             // Get existing open window or if none, make a new one:		
