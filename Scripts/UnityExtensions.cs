@@ -139,6 +139,25 @@ namespace UnityHelpers
         }
 
         /// <summary>
+        /// Destroys all the children of a given gameobject
+        /// </summary>
+        /// <param name="obj">The parent game object</param>
+        public static void DestroyAllChildrenImmediately(this GameObject obj)
+        {
+            DestroyAllChildrenImmediately(obj.transform);
+        }
+
+        /// <summary>
+        /// Destroys all the children of a given transform
+        /// </summary>
+        /// <param name="obj">The parent transform</param>
+        public static void DestroyAllChildrenImmediately(this Transform trans)
+        {
+            while (trans.childCount != 0)
+                GameObject.DestroyImmediate(trans.GetChild(0).gameObject);
+        }        
+
+        /// <summary>
         /// Focuses the camera on a point in 2D space (just transforms the x and y to match the target)
         /// </summary>
         /// <param name="camera"></param>
