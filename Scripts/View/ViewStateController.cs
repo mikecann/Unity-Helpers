@@ -20,6 +20,9 @@ namespace Assets.Libraries.UnityHelpers.Scripts.View
 
         void Awake()
         {
+            if (states == null)
+                states = new List<GameObject>();
+
             // Lets init the states
             foreach (var state in states)
             {
