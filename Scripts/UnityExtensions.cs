@@ -195,11 +195,6 @@ namespace UnityHelpers
             };
         }
 
-        public static string ToReadableAgeString(this TimeSpan span)
-        {
-            return string.Format("{0:0}", span.Days / 365.25);
-        }
-
         public static string ToReadableString(this TimeSpan span)
         {
             string formatted = string.Format("{0}{1}{2}{3}",
