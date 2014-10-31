@@ -83,7 +83,7 @@ namespace UnityHelpers
 
         public static T Instantiate<T>() where T : Component
         {
-            var obj = new GameObject();
+            var obj = new GameObject(typeof(T).Name);
             return obj.AddComponent<T>();
         }
 
