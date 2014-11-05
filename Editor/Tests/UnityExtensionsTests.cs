@@ -8,7 +8,6 @@ using UnityHelpers;
 
 namespace UnityHelpers.Tests
 {    
-
     [TestFixture]
     public class UnityExtensionsTests : UnityUnitTest
     {
@@ -20,14 +19,14 @@ namespace UnityHelpers.Tests
         public void HasComponentFalseWhenNoComponentExists()
         {
             var obj = CreateGameObject();
-            Assert.IsFalse(obj.Has<MockComponent>());
+            Assert.IsFalse(obj.HasComponentOrInterface<MockComponent>());
         }
 
         [Test]
         public void HasComponentFalseWhenNoComponentInterfaceExists()
         {
             var obj = CreateGameObject();
-            Assert.IsFalse(obj.Has<IMockComponent>());
+            Assert.IsFalse(obj.HasComponentOrInterface<IMockComponent>());
         }
 
         [Test]
@@ -35,7 +34,7 @@ namespace UnityHelpers.Tests
         {
             var obj = CreateGameObject();
             obj.AddComponent<MockComponent>();
-            Assert.IsTrue(obj.Has<MockComponent>());
+            Assert.IsTrue(obj.HasComponentOrInterface<MockComponent>());
         }
 
         [Test]
@@ -43,21 +42,21 @@ namespace UnityHelpers.Tests
         {
             var obj = CreateGameObject();
             obj.AddComponent<MockComponent>();
-            Assert.IsTrue(obj.Has<IMockComponent>());
+            Assert.IsTrue(obj.HasComponentOrInterface<IMockComponent>());
         }
 
         [Test]
         public void GetsNullComponentWhenNoComponentExists()
         {
             var obj = CreateGameObject();
-            Assert.IsNull(obj.Get<MockComponent>());
+            Assert.IsNull(obj.GetComponentOrInterface<MockComponent>());
         }
 
         [Test]
         public void GetsNullComponentWhenNoComponentInterfaceExists()
         {
             var obj = CreateGameObject();
-            Assert.IsNull(obj.Get<IMockComponent>());
+            Assert.IsNull(obj.GetComponentOrInterface<IMockComponent>());
         }
 
         [Test]
@@ -65,7 +64,7 @@ namespace UnityHelpers.Tests
         {
             var obj = CreateGameObject();
             var comp = obj.AddComponent<MockComponent>();
-            Assert.AreEqual(comp, obj.Get<MockComponent>());
+            Assert.AreEqual(comp, obj.GetComponentOrInterface<MockComponent>());
         }
 
         [Test]
@@ -73,21 +72,21 @@ namespace UnityHelpers.Tests
         {
             var obj = CreateGameObject();
             var comp = obj.AddComponent<MockComponent>();
-            Assert.AreEqual(comp, obj.Get<IMockComponent>());
+            Assert.AreEqual(comp, obj.GetComponentOrInterface<IMockComponent>());
         }   
 
         [Test]
         public void GetsNoComponentsWhenNoneExists()
         {
             var obj = CreateGameObject();
-            Assert.AreEqual(0, obj.GetAll<MockComponent>().Count());
+            Assert.AreEqual(0, obj.GetAllComponentsOrInterfaces<MockComponent>().Count());
         }
 
         [Test]
         public void GetsNoComponentInterfacesWhenNoneExists()
         {
             var obj = CreateGameObject();
-            Assert.AreEqual(0, obj.GetAll<IMockComponent>().Count());
+            Assert.AreEqual(0, obj.GetAllComponentsOrInterfaces<IMockComponent>().Count());
         }
 
         [Test]
@@ -97,7 +96,7 @@ namespace UnityHelpers.Tests
             var comp1 = obj.AddComponent<MockComponent>();
             var comp2 = obj.AddComponent<MockComponent>();
 
-            var all = obj.GetAll<MockComponent>();
+            var all = obj.GetAllComponentsOrInterfaces<MockComponent>();
 
             Assert.AreEqual(2, all.Count());
             Assert.IsTrue(all.Contains(comp1));
@@ -111,7 +110,7 @@ namespace UnityHelpers.Tests
             var comp1 = obj.AddComponent<MockComponent>();
             var comp2 = obj.AddComponent<AnotherMockComponent>();
 
-            var all = obj.GetAll<IMockComponent>();
+            var all = obj.GetAllComponentsOrInterfaces<IMockComponent>();
 
             Assert.AreEqual(2, all.Count());
             Assert.IsTrue(all.Contains(comp1));
@@ -156,7 +155,7 @@ namespace UnityHelpers.Tests
             var parent = CreateGameObject();
             var child = parent.AddChild(typeof(MockComponent), typeof(AnotherMockComponent));
 
-            var all = child.GetAll<IMockComponent>();
+            var all = child.GetAllComponentsOrInterfaces<IMockComponent>();
 
             Assert.AreEqual(2, all.Count());
             Assert.AreEqual(parent.transform, child.transform.parent);
@@ -172,5 +171,49 @@ namespace UnityHelpers.Tests
             Assert.IsTrue(newColor.b > original.b - 0.01 && newColor.b < original.b + 0.01);
             Assert.IsTrue(newColor.a > original.a - 0.01 && newColor.a < original.a + 0.01);
         }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentException), ExpectedMessage = "Cannot randomly pick an item from the list, the list is null!")]
+        public void ThrowsExceptionIfTryingToRandomlyPickFromANullEnumarable()
+        {
+            List<Color> colors = null;
+            colors.RandomOne();
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentException), ExpectedMessage = "Cannot randomly pick an item from the list, there are no items in the list!")]
+        public void ThrowsExceptionIfTryingToRandomlyPickFromAnEmptyList()
+        {
+            var colors = new List<Color>();
+            colors.RandomOne();
+        }
+
+        [Test]
+        public void ReturnsTheFirstElementWhenRandomlyPickingFromAListWithOneElment()
+        {
+            var colors = new List<Color>() { Color.blue };
+            var color = colors.RandomOne();
+            Assert.AreEqual(Color.blue, color);
+        }
+
+        [Test]
+        public void RoughlyRandomlyPicksElementsFromAList()
+        {
+            var colors = new List<Color>() { Color.blue, Color.red };
+            var redCount = 0;
+            var blueCount = 0;
+            // Random it 1000 times
+            for (int i = 0; i < 1000; i++)
+            {
+                if (colors.RandomOne() == Color.red) redCount++;
+                else blueCount++;
+            }
+
+            // Should expect roughly 500 reds and 500 blues
+            Assert.IsTrue(redCount + blueCount == 1000);
+            Assert.IsTrue(redCount > 400 && redCount < 600);
+            Assert.IsTrue(blueCount > 400 && blueCount < 600);
+        }
+
     }
 }
