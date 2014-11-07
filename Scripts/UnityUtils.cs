@@ -103,6 +103,11 @@ namespace UnityHelpers
             return Instantiate((GameObject)Resources.Load(resourcePath));
         }
 
+        public static void Log(string message, params object[] args)
+        {
+            Debug.Log(string.Format(message, args));
+        }
+
         public static GameObject Instantiate(GameObject prefab)
         {
 #if UNITY_EDITOR
