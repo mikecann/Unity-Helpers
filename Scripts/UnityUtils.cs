@@ -110,7 +110,7 @@ namespace UnityHelpers
 
         public static GameObject Instantiate(GameObject prefab)
         {
-#if UNITY_EDITOR
+#if UNITY_EDITOR            
             return (GameObject)UnityEditor.PrefabUtility.InstantiatePrefab(prefab);
 #else
             return (GameObject)GameObject.Instantiate(prefab);

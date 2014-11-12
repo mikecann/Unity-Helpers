@@ -148,7 +148,11 @@ public static class UnityExtensions
     public static GameObject AddChild(this GameObject parent, string name, params Type[] components)
     {
         var obj = new GameObject(name, components);
-        if (parent != null) obj.transform.parent = parent.transform;
+        if (parent != null)
+        {
+            if (obj.transform is RectTransform) obj.transform.SetParent(parent.transform, true);
+            else obj.transform.parent = parent.transform;
+        }
         return obj;
     }
 
@@ -160,7 +164,11 @@ public static class UnityExtensions
     public static GameObject LoadChild(this GameObject parent, string resourcePath)
     {
         var obj = (GameObject)GameObject.Instantiate(Resources.Load(resourcePath));
-        if (obj != null && parent != null) obj.transform.parent = parent.transform;
+        if (obj != null && parent != null)
+        {
+            if (obj.transform is RectTransform) obj.transform.SetParent(parent.transform, true);
+            else obj.transform.parent = parent.transform;
+        }
         return obj;
     }
 
@@ -172,7 +180,11 @@ public static class UnityExtensions
     public static GameObject LoadChild(this Transform parent, string resourcePath)
     {
         var obj = (GameObject)GameObject.Instantiate(Resources.Load(resourcePath));
-        if (obj != null && parent != null) obj.transform.parent = parent;
+        if (obj != null && parent != null)
+        {
+            if (obj.transform is RectTransform) obj.transform.SetParent(parent, true);
+            else obj.transform.parent = parent;
+        }
         return obj;
     }
 
