@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// Putting these in the global namespace so that they can be accessed from anywhere in the game without importing
@@ -40,6 +41,39 @@ public static class UnityExtensions
     /// <param name="obj">The object to get from</param>
     /// <returns></returns>
     public static T[] GetAll<T>(this GameObject obj) where T : Component
+    {
+        return obj.GetComponents<T>();
+    }
+
+    // <summary>
+    /// A shorter way of testing if a game object has a component
+    /// </summary>
+    /// <typeparam name="T">Component type</typeparam>
+    /// <param name="obj">The component to check on</param>
+    /// <returns></returns>
+    public static bool Has<T>(this Component obj) where T : Component
+    {
+        return obj.GetComponent<T>() != null;
+    }
+
+    /// <summary>
+    /// A slightly shorter way to get a component from an object
+    /// </summary>
+    /// <typeparam name="T">Component type</typeparam>
+    /// <param name="obj">The component to get from</param>
+    /// <returns></returns>
+    public static T Get<T>(this Component obj) where T : Component
+    {
+        return obj.GetComponent<T>();
+    }
+
+    /// <summary>
+    /// A slightly shorter way to get a component from an object
+    /// </summary>
+    /// <typeparam name="T">Component type</typeparam>
+    /// <param name="obj">The component to get from</param>
+    /// <returns></returns>
+    public static T[] GetAll<T>(this Component obj) where T : Component
     {
         return obj.GetComponents<T>();
     }
@@ -295,5 +329,24 @@ public static class UnityExtensions
             Debug.Log(String.Format("Item[{0}]: {1}", count, obj));
         }
         return items;
+    }
+
+    /// <summary>
+    /// Adds a listner to a UnityEvent which is removed as soon as the event is invoked
+    /// </summary>
+    /// <param name="evnt">the event to listen for</param>
+    /// <param name="callback">the callback to call</param>
+    /// <returns></returns>
+    public static UnityEvent AddOnce(this UnityEvent evnt, Action callback)
+    {
+        UnityAction a = null;
+        a = () =>
+        {
+            evnt.RemoveListener(a);
+            callback();
+        };
+
+        evnt.AddListener(a);
+        return evnt;
     }
 }  

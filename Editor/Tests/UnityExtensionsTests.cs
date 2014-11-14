@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityHelpers;
 
 namespace UnityHelpers.Tests
@@ -213,6 +214,20 @@ namespace UnityHelpers.Tests
             Assert.IsTrue(redCount + blueCount == 1000);
             Assert.IsTrue(redCount > 400 && redCount < 600);
             Assert.IsTrue(blueCount > 400 && blueCount < 600);
+        }
+
+        [Test]
+        public void AddOnceRemovesTheCallbackAfterInvokation()
+        {
+            var evnt = new UnityEvent();
+            var callCount = 0;
+            evnt.AddOnce(() =>
+            {
+                callCount++;
+            });
+            evnt.Invoke();
+            evnt.Invoke(); // second invoke shouldnt call the handler
+            Assert.AreEqual(1, callCount);
         }
 
     }
