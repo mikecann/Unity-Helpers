@@ -264,11 +264,11 @@ public static class UnityExtensions
     }
 
     /// <summary>
-    /// Converts a color to a uint
+    /// Converts a uint to a color32
     /// </summary>
     /// <param name="color">The uint to convert</param>
     /// <returns></returns>
-    public static Color ToColor(this uint color)
+    public static Color32 ToColor32(this uint color)
     {
         return new Color32()
         {
@@ -277,6 +277,26 @@ public static class UnityExtensions
             g = (byte)(color >> 8),
             b = (byte)(color >> 0)
         };
+    }
+
+    /// <summary>
+    /// Converts a uint to a color
+    /// </summary>
+    /// <param name="color">The uint to convert</param>
+    /// <returns></returns>
+    public static Color ToColor(this uint color)
+    {
+        return ToColor32(color);
+    }
+
+    /// <summary>
+    /// Converts a color to its hex counterpart
+    /// </summary>
+    /// <param name="color">The color to convert</param>
+    /// <returns></returns>
+    public static string ToHex(this Color32 color)
+    {
+        return "#" + color.r.ToString("X2") + color.g.ToString("X2") + color.b.ToString("X2");
     }
 
     /// <summary>
