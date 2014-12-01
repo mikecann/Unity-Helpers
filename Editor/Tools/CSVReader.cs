@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace Assets.Libraries.UnityHelpers.Editor.Tools
+namespace UnityHelpers
 {
 
     public class CSVReader
