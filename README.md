@@ -13,14 +13,14 @@ using UnityHelpers;
 var obj = new GameObject();
 obj.AddComponent<MyComponent>();
 
-obj.Has<MyComponent>(); // Returns true or false
-obj.Has<IMyComponent>(); // Can also handle interfaces
+obj.Has<MyComponent>(); // Returns true or false 
+obj.HasComponentOrInterface<IMyComponent>(); // Can also handle interfaces
 
 obj.Get<MyComponent>(); // Returns the first component
-obj.Get<IMyComponent>(); // Returns the first component that implements the interface
+obj.GetComponentOrInterface<IMyComponent>(); // Returns the first component that implements the interface
 
 obj.GetAll<MyComponent>(); // Gets all the components
-obj.GetAll<IMyComponent>(); // Gets all the components that implement the interface
+obj.GetAllComponentsOrInterfaces<IMyComponent>(); // Gets all the components that implement the interface
 ```
 
 Another utility is for adding children to GameObjects:
@@ -35,6 +35,24 @@ obj.AddChild("Mike"); // Creates a new GameObject named "Mike" and adds it as a 
 var player = obj.AddChild<Player>("Dave"); // Creates a new GameObject named "Dave" and adds the component "Player" returning it
 
 obj.AddChild(typeof(Player), typeof(Friendly), typeof(AI)); // Creates a new GameObject and adds a number of components
+```
+
+There are a number of useful utils for loading assets into GameObjects too:
+
+```
+using UnityHelpers;
+
+var obj = new GameObject();
+
+obj.Load("Prefabs/Spaceship"); // Loads the Spaceship prefab from the Resources folder and adds it as a child
+```
+
+Most of the Utils also can be accessed via the UnityUtils.* class too rather than just extension methods:
+
+```
+using UnityHelerps;
+
+var player = UnityUtils.Load<Player>("Prefabs/Spaceship");
 ```
 
 Enumerate Resources
@@ -67,6 +85,11 @@ obj.LoadChild(GameResources.Prefabs.Icons.IndicatorArror);
 There are many other utils and extensions, and more to come.
 
 Checkout the source for more info: https://github.com/mikecann/Unity-Helpers/tree/master/Scripts
+
+Misc Hacks
+==========
+
+The UnityHelpers.MiscHacks class contains a few helpful hacks, such as opening the SpriteEditorWindow directly from code (Unity provides no way of doing this).
 
 Tests
 =====

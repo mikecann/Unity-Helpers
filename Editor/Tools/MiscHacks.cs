@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEditor;
 
-namespace Assets.Libraries.UnityHelpers.Editor.Tools
+namespace UnityHelpers
 {
     public class MiscHacks
     {
