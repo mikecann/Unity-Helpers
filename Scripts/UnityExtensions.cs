@@ -421,4 +421,43 @@ public static class UnityExtensions
     {
         return new Vector2(v.x, v.y);
     }
+
+    /// <summary>
+    /// Simple method to turn a v2 into a v3
+    /// </summary>
+    /// <param name="v">The vector to convert</param>
+    /// <returns></returns>
+    public static Vector3 ToVector3(this Vector2 v)
+    {
+        return new Vector3(v.x, v.y, 0);
+    }
+
+    /// <summary>
+    /// Simple method to turn a v3 into a v2
+    /// </summary>
+    /// <param name="v">The vector to convert</param>
+    /// <returns></returns>
+    public static Vector2 ToVector3(this Vector3 v)
+    {
+        return new Vector2(v.x, v.y);
+    }
+
+    /// <summary>
+    /// Quick shuffle of a list 
+    /// Borrowed from: http://stackoverflow.com/questions/273313/randomize-a-listt-in-c-sharp
+    /// </summary>
+    /// <typeparam name="T">the type of the list</typeparam>
+    /// <param name="list">the list to shuffle</param>
+    public static void Shuffle<T>(this IList<T> list)
+    {        
+        int n = list.Count;
+        while (n > 1)
+        {
+            n--;
+            int k = UnityEngine.Random.Range(0, n+1);
+            T value = list[k];
+            list[k] = list[n];
+            list[n] = value;
+        }
+    }
 }  
