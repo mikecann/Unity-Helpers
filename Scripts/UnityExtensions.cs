@@ -437,7 +437,7 @@ public static class UnityExtensions
     /// </summary>
     /// <param name="v">The vector to convert</param>
     /// <returns></returns>
-    public static Vector2 ToVector3(this Vector3 v)
+    public static Vector2 ToVector2(this Vector3 v)
     {
         return new Vector2(v.x, v.y);
     }
