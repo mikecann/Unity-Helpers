@@ -369,4 +369,56 @@ public static class UnityExtensions
         evnt.AddListener(a);
         return evnt;
     }
+
+    /// <summary>
+    /// Returns the orthographic bounds for a camera 
+    /// !! NOT UNIT TESTED !!
+    /// Borrowed from: http://answers.unity3d.com/questions/501893/calculating-2d-camera-bounds.html
+    /// </summary>
+    /// <param name="camera">the camera to get the bounds on</param>
+    /// <returns>the orthographic bounds on a camera</returns>
+    public static Bounds OrthographicBounds(this Camera camera)
+    {
+        float screenAspect = (float)Screen.width / (float)Screen.height;
+        float cameraHeight = camera.orthographicSize * 2;
+        Bounds bounds = new Bounds(
+            camera.transform.position,
+            new Vector3(cameraHeight * screenAspect, cameraHeight, 0));
+        return bounds;
+    }
+
+    /// <summary>
+    /// Tests if two bounds intersect. This is neccessary as there appears to be a bug with normal Bounds Intersection.
+    /// !! NOT UNIT TESTED !!
+    /// </summary>
+    /// <param name="a">First bound</param>
+    /// <param name="b">Second bound</param>
+    /// <returns></returns>
+    public static bool Intersects2(this Bounds a, Bounds b)
+    {
+        return !(b.min.x > a.max.x ||
+               b.max.x < a.min.x ||
+               b.min.y > a.max.y ||
+               b.max.y < a.min.y);
+    }
+
+    /// <summary>
+    /// A simple clone method for a Vector3
+    /// </summary>
+    /// <param name="v">The vector to clone</param>
+    /// <returns></returns>
+    public static Vector3 Clone(this Vector3 v)
+    {
+        return new Vector3(v.x, v.y, v.z);
+    }
+
+    /// <summary>
+    /// A simple clone method for a Vector2
+    /// </summary>
+    /// <param name="v">The vector to clone</param>
+    /// <returns></returns>
+    public static Vector2 Clone(this Vector2 v)
+    {
+        return new Vector2(v.x, v.y);
+    }
 }  
