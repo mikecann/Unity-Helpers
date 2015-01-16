@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-namespace Assets.Libraries.UnityHelpers.Scripts.View
+namespace UnityHelpers.View
 {
     [ExecuteInEditMode]
     public class ViewStateController : MonoBehaviour

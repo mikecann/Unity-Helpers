@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityHelpers;
 
-namespace Assets.Libraries.UnityHelpers.Scripts.View
+namespace UnityHelpers.View
 {
     [ExecuteInEditMode]
     public class PageIndicator : MonoBehaviour

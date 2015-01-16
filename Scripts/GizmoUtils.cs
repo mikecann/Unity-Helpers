@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace Assets.Libraries.Unity_Helpers.Scripts
+namespace UnityHelpers
 {
     public class GizmoUtils
     {
