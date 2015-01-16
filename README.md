@@ -82,10 +82,6 @@ For added sugar there is a method to add the loaded resource as a child of a gam
 obj.LoadChild(GameResources.Prefabs.Icons.IndicatorArror);
 ```
 
-There are many other utils and extensions, and more to come.
-
-Checkout the source for more info: https://github.com/mikecann/Unity-Helpers/tree/master/Scripts
-
 ViewStateController
 ===================
 
