@@ -86,6 +86,28 @@ There are many other utils and extensions, and more to come.
 
 Checkout the source for more info: https://github.com/mikecann/Unity-Helpers/tree/master/Scripts
 
+ViewStateController
+===================
+
+![view state controller screenshot](http://i.imgur.com/kjBzATD.png)
+
+The ViewStateController is a utility for UnityUI that allows you to manage view states. Simply add the states to a list then use the dropdown in the inspector to toggle between which one is active.
+
+At runtime use the methods to change the states:
+
+```
+var states = GetComponent<ViewStateController>();
+
+states.SetState("Main Menu"); // Sets the main menu state
+
+states.SetState(someOtherStateGameObject); // Sets another state using the gameobject reference
+```
+
+FPSCounter
+==========
+
+Attach this component to a gameobject with a Text component and output the current FPS to the screen.
+
 Misc Hacks
 ==========
 
