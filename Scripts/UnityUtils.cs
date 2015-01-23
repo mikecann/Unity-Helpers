@@ -108,6 +108,11 @@ namespace UnityHelpers
             Debug.Log(string.Format(message, args));
         }
 
+        public static void LogError(string message, params object[] args)
+        {
+            Debug.LogError(string.Format(message, args));
+        }
+
         public static GameObject Instantiate(GameObject prefab)
         {
 #if UNITY_EDITOR            
@@ -115,7 +120,21 @@ namespace UnityHelpers
 #else
             return (GameObject)GameObject.Instantiate(prefab);
 #endif
-        }           
+        }
 
+        /// <summary>
+        /// NOT TESTED!
+        /// Wraps a given float around between a lower and upper bound
+        /// </summary>
+        /// <param name="value">the value to wrap</param>
+        /// <param name="lower">the lower bound</param>
+        /// <param name="upper">the upper bound</param>
+        /// <returns></returns>
+        public static float Wrap(float value, int lower, int upper)
+        {
+            float distance = upper - lower;
+            float times = (float)System.Math.Floor((value - lower) / distance);
+            return value - (times * distance);
+        }
     }
 }

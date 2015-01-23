@@ -112,6 +112,16 @@ public static class UnityExtensions
     }
 
     /// <summary>
+    /// Gets all components of a given type including children, accepts interfaces
+    /// </summary>
+    /// <typeparam name="T">Type of components to get (accepts interfaces)</typeparam>
+    /// <returns>Enumerable of components</returns>
+    public static IEnumerable<T> GetAllComponentsOrInterfacesInChildren<T>(this GameObject obj) where T : class
+    {
+        return obj.GetComponentsInChildren<Component>().OfType<T>();
+    }
+
+    /// <summary>
     /// Checks to see if the game object has a component, accepts interfaces
     /// </summary>
     /// <typeparam name="T">Type of component to check for (can be an interface)</typeparam>
@@ -139,6 +149,16 @@ public static class UnityExtensions
     public static IEnumerable<T> GetAllComponentsOrInterfaces<T>(this Component component) where T : class
     {
         return GetAllComponentsOrInterfaces<T>(component.gameObject);
+    }
+
+    /// <summary>
+    /// Gets all components of a given type in itself and the children, accepts interfaces
+    /// </summary>
+    /// <typeparam name="T">Type of components to get (accepts interfaces)</typeparam>
+    /// <returns>Enumerable of components</returns>
+    public static IEnumerable<T> GetAllComponentsOrInterfacesInChildren<T>(this Component component) where T : class
+    {
+        return GetAllComponentsOrInterfacesInChildren<T>(component.gameObject);
     }
 
     /// <summary>
