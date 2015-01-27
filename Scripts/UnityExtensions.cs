@@ -480,4 +480,34 @@ public static class UnityExtensions
             list[n] = value;
         }
     }
+
+    /// <summary>
+    /// Simple method to set the x value on the Vector3, returns a new vector3
+    /// </summary>
+    /// <param name="v">the vector</param>
+    /// <param name="x">the x value to set</param>
+    public static Vector3 SetX(this Vector3 v, float x)
+    {
+        return new Vector3(x, v.y, v.z);
+    }
+
+    /// <summary>
+    /// Simple method to set the y value on the Vector3, returns a new vector3
+    /// </summary>
+    /// <param name="v">the vector</param>
+    /// <param name="x">the y value to set</param>
+    public static Vector3 SetY(this Vector3 v, float y)
+    {
+        return new Vector3(v.x, y, v.z);
+    }
+
+    /// <summary>
+    /// Simple method to set the z value on the Vector3, returns a new vector3
+    /// </summary>
+    /// <param name="v">the vector</param>
+    /// <param name="x">the z value to set</param>
+    public static Vector3 SetZ(this Vector3 v, float z)
+    {
+        return new Vector3(v.x, v.y, z);
+    }
 }  
