@@ -3,32 +3,79 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEditor;
+using UnityEditorInternal;
+using UnityEngine;
+using UnityHelpers;
 using UnityHelpers.View;
 
-namespace Assets.Libraries.UnityHelpers.Editor.Editors
+namespace UnityHelpers
 {
     [CustomEditor(typeof(ViewStateController))]
     public class ViewStateControllerEditor : UnityEditor.Editor
     {
+        private ReorderableList list;
+        private ViewStateController controller;
+        private GUIContent visibleOnIcon;
+        private GUIContent visibleOffIcon;
+
+        void Awake()
+        {
+            controller = (ViewStateController)target;
+
+            visibleOnIcon = EditorGUIUtility.IconContent("animationvisibilitytoggleon");
+            visibleOffIcon = EditorGUIUtility.IconContent("animationvisibilitytoggleoff");
+
+            list = new ReorderableList(controller.states, typeof(GameObject), true, true, true, true);
+
+            ReorderableListUtil.SetColumns(list, new List<ReorderableListColumn<GameObject>>
+            {
+                new ReorderableListColumn<GameObject> {
+                    Name = "Id",
+                    Width = 20,
+                    ItemRenderer = (GameObject state, Rect rect, int index, bool isActive, bool isFocused) => {
+                        EditorGUI.LabelField(rect, "" + index);
+                    }
+                },
+                new ReorderableListColumn<GameObject> {
+                    Name = "State",
+                    WidthRatio = 1,
+                    ItemRenderer = (GameObject state, Rect rect, int index, bool isActive, bool isFocused) => {
+                        EditorGUI.ObjectField(rect, state, typeof(GameObject));
+                    }
+                },
+                new ReorderableListColumn<GameObject> {
+                    Name = "",
+                    Width = 10,
+                    ItemRenderer = (GameObject state, Rect rect, int index, bool isActive, bool isFocused) => {
+                        EditorGUI.LabelField(rect, "");
+                    }
+                },
+                new ReorderableListColumn<GameObject> {
+                    Name = "",
+                    Width = 15,
+                    ItemRenderer = (GameObject state, Rect rect, int index, bool isActive, bool isFocused) => {
+                        var content = state.activeSelf ? visibleOnIcon : visibleOffIcon;
+                        var r = new Rect(rect);
+                        r.y += 4;
+                        var b = GUI.Toggle(r, state.activeSelf, content, GUIStyle.none);
+                        if (b != state.activeSelf && b) controller.SetState(state);
+                    }
+                }
+            });
+        }
+
+
         public override void OnInspectorGUI()
         {
-            serializedObject.Update();
+            EditorGUILayout.LabelField("States");
+            list.list = controller.states;
+            list.DoLayoutList();
 
-            var controller = (ViewStateController)target;
+            serializedObject.Update();            
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("stateChanged"));
+            serializedObject.ApplyModifiedProperties();            
 
-            if (controller.states!=null && controller.states.Count > 0)
-            {
-                var options = controller.states.Select(s => s==null?"None":s.name).ToArray();
-                var newSelectedIndex = EditorGUILayout.Popup("Current State", controller.CurrentStateIndex, options);
-                if (newSelectedIndex != controller.CurrentStateIndex)
-                {
-                    controller.SetState(newSelectedIndex);
-                    EditorUtility.SetDirty(controller);
-                }                    
-            }
-
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("states"), true);
-            serializedObject.ApplyModifiedProperties();
+            ViewStateControllerHierachyUtil.UpdateStatesList();
         }
     }
 }

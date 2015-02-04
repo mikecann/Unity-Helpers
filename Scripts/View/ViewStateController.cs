@@ -40,6 +40,7 @@ namespace UnityHelpers.View
                 currentStateIndex = states.IndexOf(selected);
                 currentStateName = selected.name;
             }
+
         }
 
         public void SetNoState()
