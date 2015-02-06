@@ -40,7 +40,7 @@ namespace UnityHelpers
                     Name = "State",
                     WidthRatio = 1,
                     ItemRenderer = (GameObject state, Rect rect, int index, bool isActive, bool isFocused) => {
-                        EditorGUI.ObjectField(rect, state, typeof(GameObject));
+                        controller.states[index] = (GameObject)EditorGUI.ObjectField(rect, state, typeof(GameObject), true);
                     }
                 },
                 new ReorderableListColumn<GameObject> {
@@ -71,9 +71,9 @@ namespace UnityHelpers
             list.list = controller.states;
             list.DoLayoutList();
 
-            serializedObject.Update();            
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("stateChanged"));
-            serializedObject.ApplyModifiedProperties();            
+            //serializedObject.Update();
+            //EditorGUILayout.PropertyField(serializedObject.FindProperty("stateChanged"));
+            //serializedObject.ApplyModifiedProperties();            
 
             ViewStateControllerHierachyUtil.UpdateStatesList();
         }

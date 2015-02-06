@@ -11,128 +11,90 @@ namespace UnityHelpers.View
     [ExecuteInEditMode]
     public class ViewStateController : MonoBehaviour
     {
-        public GameObject selected;
-        public List<GameObject> states;
-        public UnityEvent stateChanged;
+        public List<GameObject> states = new List<GameObject>();
+        public ViewStateControllerStateChangedEvent stateChanged = new ViewStateControllerStateChangedEvent();
 
-        private string currentStateName = "None";
-        private int currentStateIndex = -1;
+        public Action<GameObject> enableHandler = obj => obj.SetActive(true);
+        public Action<GameObject> disableHandler = obj => obj.SetActive(false);
+
+        private GameObject currentState;
 
         void Awake()
         {
-            if (states == null)
-                states = new List<GameObject>();
-
-            // Lets init the states
+            // Lets find the current state (and allow each state to Awake() );
             foreach (var state in states)
             {
-                if (state == selected) Enable(state);
-                else Disable(state);
+                var before = state.activeSelf;
+                if (before) currentState = state;
+                state.SetActive(true);
+                state.SetActive(before);
             }
-
-            if (selected == null)
-            {
-                currentStateIndex = -1;
-                currentStateName = "None";
-            }
-            else
-            {
-                currentStateIndex = states.IndexOf(selected);
-                currentStateName = selected.name;
-            }
-
         }
 
         public void SetNoState()
         {
-            if (selected == null) return;
-            foreach(var state in states)
-                state.SetActive(false);
-            selected = null;
-            currentStateName = null;
-            currentStateIndex = -1;
+            GameObject obj = null;
+            SetState(obj);
+        }
+
+        public GameObject GetState(string stateName)
+        {
+            return states.FirstOrDefault(s => s == null ? false : s.name == stateName);
+        }
+
+        public T GetState<T>() where T : Component
+        {
+            foreach (var state in states)
+                if (state.Has<T>())
+                    return state.Get<T>();
+            return null;
         }
 
         public void SetState(string stateName)
         {
-            if (currentStateName == stateName) return;
+            if (CurrentStateName == stateName) return;
             if (states == null) return;
-            SetState(states.FirstOrDefault(s => s == null ? false : s.name == stateName));
+            SetState(GetState(stateName));
         }
 
         public void SetState(int stateIndex)
         {
-            if (stateIndex == currentStateIndex) return;
+            if (stateIndex == CurrentStateIndex) return;
             if (states == null || states.Count - 1 < stateIndex || stateIndex < 0) return;
             SetState(states[stateIndex]);
         }
 
         public void SetState(GameObject obj)
         {
-            if (obj == selected) return;
+            if (obj == CurrentState) return;
 
-            if (!states.Contains(obj))
+            if (obj !=null && !states.Contains(obj))
                 throw new Exception("Cannot set state '" + obj + "' is not part of the possible states!");
 
             foreach(var state in states)
             {
                 if (state == obj) continue;
                 if (state == null) continue;
-                Disable(state);
+                if(disableHandler!=null)
+                    disableHandler(state);
             }
 
             if (obj != null)
-                Enable(obj);
-   
-            selected = obj;
-            stateChanged.Invoke();
-            currentStateName = obj.name;
-            currentStateIndex = states.IndexOf(obj);
-        }
+                if (enableHandler != null) 
+                    enableHandler(obj);
 
-        private void Enable(GameObject state)
-        {
-            //var canvas = state.GetComponent<Canvas>();
-            //var canvasGroup = state.GetComponent<CanvasGroup>();
-            //if (canvas != null && Application.isPlaying)
-            //{
-            //    state.SetActive(true);
-            //    canvas.enabled = true;
-            //}
-            //else if (canvasGroup != null && Application.isPlaying)
-            //{
-            //    state.SetActive(true);
-            //    canvasGroup.alpha = 1;
-            //}
-            //else state.SetActive(true);
-            state.SetActive(true);
+            var lastState = CurrentState;
+            currentState = obj;
+            stateChanged.Invoke(lastState, currentState);
         }
-
-        private void Disable(GameObject state)
-        {
-            //var canvas = state.GetComponent<Canvas>();
-            //var canvasGroup = state.GetComponent<CanvasGroup>();
-            //if (canvas != null && Application.isPlaying)
-            //{
-            //    state.SetActive(true);
-            //    canvas.enabled = false;
-            //}
-            //else if (canvasGroup != null && Application.isPlaying)
-            //{
-            //    state.SetActive(true);
-            //    canvasGroup.alpha = 0;
-            //}                
-            //else state.SetActive(false);
-            state.SetActive(false);
-        }   
 
         public void NextState()
         {
             if (states == null || states.Count == 0) return;
-            if (selected == null) SetState(0);
+            if (CurrentState == null) SetState(0);
             else
             {
-                var indx = currentStateIndex + 1;
+                var indx = CurrentStateIndex + 1;
                 if (indx > states.Count-1) indx = 0;
                 SetState(indx);
             }
@@ -141,18 +103,44 @@ namespace UnityHelpers.View
         public void PreviousState()
         {
             if (states == null || states.Count == 0) return;
-            if (selected == null) SetState(0);
+            if (CurrentState == null) SetState(0);
             else
             {
-                var indx = currentStateIndex - 1;
+                var indx = CurrentStateIndex - 1;
                 if (indx < 0) indx = states.Count - 1;
                 SetState(indx);
             }
         }
 
-        public string CurrentStateName { get { return currentStateName; } }
-        public int CurrentStateIndex { get { return currentStateIndex; } }
+        public GameObject CurrentState 
+        {
+            get 
+            { 
+                return currentState; 
+            } 
+        }
 
+        public string CurrentStateName 
+        {
+            get 
+            {
+                if (CurrentState == null) return null;
+                return CurrentState.name; 
+            } 
+        }
+
+        public int CurrentStateIndex 
+        {
+            get 
+            {
+                if (CurrentState == null) return -1;
+                return states.IndexOf(CurrentState); 
+            }
+        }       
         
     }
+
+   
+
+    public class ViewStateControllerStateChangedEvent : UnityEvent<GameObject, GameObject> { }
 }
