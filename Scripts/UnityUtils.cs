@@ -30,7 +30,7 @@ namespace UnityHelpers
 
             return sortedRenderers;
         }
-
+        
         public static GameObject GetObjectUnderScreenPoint(Vector2 screenPos)
         {
             var r = GetSpriteRenderersUnderScreenPoint(screenPos);
@@ -135,6 +135,17 @@ namespace UnityHelpers
             float distance = upper - lower;
             float times = (float)System.Math.Floor((value - lower) / distance);
             return value - (times * distance);
+        }
+
+        /// <summary>
+        /// NOT TESTED!
+        /// Finds all objects in the game that match the given type be it an object or interface
+        /// </summary>
+        /// <typeparam name="T">The type to search for</typeparam>
+        /// <returns></returns>
+        public static List<T> FindAllComponentsOrInterfaces<T>()
+        {
+            return GameObject.FindObjectsOfType<Component>().OfType<T>().ToList();
         }
     }
 }

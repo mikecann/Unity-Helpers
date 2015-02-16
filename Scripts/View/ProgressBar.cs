@@ -6,7 +6,7 @@ using ULocate;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Libraries.Unity_Helpers.Scripts.View
+namespace UnityHelpers.View
 {
     [ExecuteInEditMode]
     [RequireComponent(typeof(RectTransform))]

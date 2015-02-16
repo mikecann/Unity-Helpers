@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityHelpers;
 
 /// <summary>
 /// Putting these in the global namespace so that they can be accessed from anywhere in the game without importing
@@ -510,4 +511,36 @@ public static class UnityExtensions
     {
         return new Vector3(v.x, v.y, z);
     }
+
+    /// <summary>
+    /// NOT TESTED !!
+    /// Converts a 3D bounds to a 2D rect
+    /// </summary>
+    /// <param name="b">The bounds to convert</param>
+    /// <returns>the rect</returns>
+    public static Rect ToRect(this Bounds b)
+    {
+        return new Rect(b.min.x, b.min.y, b.size.x, b.size.y);
+    }
+
+    /// <summary>
+    /// Instantiates an instance of this prefab
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <returns></returns>
+    public static GameObject Instantiate(this GameObject prefab)
+    {
+        return UnityUtils.Instantiate(prefab);
+    }
+
+    /// <summary>
+    /// Instantiates an instance of this prefab and retuns a component on it
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <returns></returns>
+    public static T Instantiate<T>(this GameObject prefab) where T : Component
+    {
+        return UnityUtils.Instantiate<T>(prefab);
+    }
+
 }  
