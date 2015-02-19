@@ -104,6 +104,9 @@ namespace &&NAMESPACE&&
                 return "\tpublic const string " + varName + " = \"" + strPath + "\";";                
             }));
 
+            // Add this path
+            lines.Add("\tpublic const string _Path = \"" + path.Replace("Assets/Resources/","") + "\";");
+
             var contents = String.Join("\n", lines.ToArray());
 
             var tabs = "";

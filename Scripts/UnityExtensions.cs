@@ -490,16 +490,28 @@ public static class UnityExtensions
     /// <typeparam name="T">the type of the list</typeparam>
     /// <param name="list">the list to shuffle</param>
     public static void Shuffle<T>(this IList<T> list)
-    {        
+    {
         int n = list.Count;
         while (n > 1)
         {
             n--;
-            int k = UnityEngine.Random.Range(0, n+1);
+            int k = UnityEngine.Random.Range(0, n + 1);
             T value = list[k];
             list[k] = list[n];
             list[n] = value;
         }
+    }
+
+    /// <summary>
+    /// Takes a list, creates a copy and returns the newly shuffled list
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="list"></param>
+    public static List<T> Randomise<T>(this List<T> inList)
+    {
+        var list = new List<T>(inList);
+        list.Shuffle();
+        return list;
     }
 
     /// <summary>
@@ -562,5 +574,26 @@ public static class UnityExtensions
     {
         return UnityUtils.Instantiate<T>(prefab);
     }
+
+    /// <summary>
+    /// Loads all the objects in a given path, instantiates them then adds them as children
+    /// </summary>
+    /// <typeparam name="T">The type of the child to return</typeparam>
+    /// <param name="parentObject">The parent object to add the children to</param>
+    /// <param name="prefabsPath">The path from which to load the prefabs</param>
+    /// <returns></returns>
+    public static List<T> LoadAllAsChildren<T>(this GameObject parentObject, string prefabsPath) where T : Component
+    {
+        var prefabs = Resources.LoadAll<T>(prefabsPath);
+        var children = new List<T>();
+        foreach(var prefab in prefabs)
+        {
+            var instance = UnityUtils.Instantiate<T>(prefab.gameObject);
+            instance.transform.parent = parentObject.transform;
+            children.Add(instance);
+        }
+        return children;
+    }
+
 
 }  
