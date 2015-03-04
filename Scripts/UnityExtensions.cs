@@ -412,6 +412,25 @@ public static class UnityExtensions
     }
 
     /// <summary>
+    /// Adds a listner to a UnityEvent which is removed as soon as the event is invoked
+    /// </summary>
+    /// <param name="evnt">the event to listen for</param>
+    /// <param name="callback">the callback to call</param>
+    /// <returns></returns>
+    public static UnityEvent<T> AddOnce<T>(this UnityEvent<T> evnt, Action<T> callback)
+    {
+        UnityAction<T> a = null;
+        a = obj =>
+        {
+            evnt.RemoveListener(a);
+            callback(obj);
+        };
+
+        evnt.AddListener(a);
+        return evnt;
+    }
+
+    /// <summary>
     /// Returns the orthographic bounds for a camera 
     /// !! NOT UNIT TESTED !!
     /// Borrowed from: http://answers.unity3d.com/questions/501893/calculating-2d-camera-bounds.html

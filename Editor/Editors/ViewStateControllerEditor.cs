@@ -67,9 +67,12 @@ namespace UnityHelpers
 
         public override void OnInspectorGUI()
         {
-            EditorGUILayout.LabelField("States");
-            list.list = controller.states;
-            list.DoLayoutList();
+            if (controller != null && list !=null)
+            {
+                EditorGUILayout.LabelField("States");
+                list.list = controller.states;
+                list.DoLayoutList();
+            }
 
             //serializedObject.Update();
             //EditorGUILayout.PropertyField(serializedObject.FindProperty("stateChanged"));
