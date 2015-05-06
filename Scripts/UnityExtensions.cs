@@ -173,6 +173,16 @@ public static class UnityExtensions
     }
 
     /// <summary>
+    /// A shortcut for adding a given game object as a child
+    /// </summary>
+    /// <returns>This gameobject</returns>
+    public static GameObject AddChild(this GameObject parent, GameObject child, bool worldPositionStays = false)
+    {
+        child.transform.SetParent(parent.transform, worldPositionStays);
+        return parent;
+    }
+
+    /// <summary>
     /// A shortcut for creating a new game object then adding a component then adding it to a parent object
     /// </summary>
     /// <typeparam name="T">Type of component</typeparam>
