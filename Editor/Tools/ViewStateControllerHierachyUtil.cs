@@ -47,7 +47,10 @@ namespace UnityHelpers
              {
                  if (controller.states == null) return;
                  foreach (var state in controller.states)
-                     viewStateControllerStates[state.GetInstanceID()] = controller;
+                {
+                    if (state == null) return;
+                    viewStateControllerStates[state.GetInstanceID()] = controller;
+                }                     
              }
          }
 
