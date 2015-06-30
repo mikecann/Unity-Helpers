@@ -63,8 +63,10 @@ namespace UnityHelpers
              r.width = 18;
              if (viewStateControllerStates.ContainsKey(instanceID))
              {
-                 //&& GUI.Button(r, visibleOnIcon)
-                 var obj = (GameObject)EditorUtility.InstanceIDToObject(instanceID);
+                 var obj = EditorUtility.InstanceIDToObject(instanceID) as GameObject;
+                 if (obj == null)
+                     return;
+
                  var content = obj.activeSelf ? visibleOnIcon : visibleOffIcon;
                  var b = GUI.Toggle(r, obj.activeSelf, content, GUIStyle.none);
                  if (b != obj.activeSelf)
