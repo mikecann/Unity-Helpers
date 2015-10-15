@@ -385,6 +385,34 @@ public static class UnityExtensions
     }
 
     /// <summary>
+    /// Borrowed from http://stackoverflow.com/questions/56692/random-weighted-choice
+    /// Randomly picks one element from the enumerable, taking into account a weight
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="sequence"></param>
+    /// <param name="weightSelector"></param>
+    /// <returns></returns>
+    public static T WeightedRandomOne<T>(this IEnumerable<T> sequence, Func<T, float> weightSelector)
+    {
+        float totalWeight = sequence.Sum(weightSelector);
+        // The weight we are after...
+        float itemWeightIndex = UnityEngine.Random.value * totalWeight;
+        float currentWeightIndex = 0;
+
+        foreach (var item in from weightedItem in sequence select new { Value = weightedItem, Weight = weightSelector(weightedItem) })
+        {
+            currentWeightIndex += item.Weight;
+
+            // If we've hit or passed the weight we are after for this item then it's the one we want....
+            if (currentWeightIndex >= itemWeightIndex)
+                return item.Value;
+
+        }
+
+        return default(T);
+    }
+
+    /// <summary>
     /// Loops over each item in the list and logs out a particular value, handy for debugging!
     /// </summary>
     /// <typeparam name="T">The type of the item</typeparam>
