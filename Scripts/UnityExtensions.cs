@@ -633,6 +633,24 @@ public static class UnityExtensions
     }
 
     /// <summary>
+    /// Deactivates the gameobject this component is attached to
+    /// </summary>
+    /// <returns></returns>
+    public static void Deactivate(this Component component)
+    {
+        component.gameObject.SetActive(false);
+    }
+
+    /// <summary>
+    /// Activate the gameobject this component is attached to
+    /// </summary>
+    /// <returns></returns>
+    public static void Activate(this Component component)
+    {
+        component.gameObject.SetActive(true);
+    }
+
+    /// <summary>
     /// Loads all the objects in a given path, instantiates them then adds them as children
     /// </summary>
     /// <typeparam name="T">The type of the child to return</typeparam>
