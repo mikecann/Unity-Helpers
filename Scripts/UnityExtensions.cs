@@ -670,4 +670,18 @@ public static class UnityExtensions
         return children;
     }
 
+    /// <summary>
+    /// Recursively looks up the tree to see if this object is parents by the supplied
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <returns></returns>
+    public static bool IsParentedBy(this GameObject obj, GameObject parent)
+    {
+        if (obj.transform.parent == null)
+            return false;
+        if (obj.transform.parent.gameObject == parent)
+            return true;
+
+        return obj.transform.parent.gameObject.IsParentedBy(parent);
+    }
 }  
