@@ -10,7 +10,7 @@ using UnityHelpers;
 namespace UnityHelpers.Tests
 {    
     [TestFixture]
-    public class UnityExtensionsTests : UnityUnitTest
+    public class UnityExtensionsTests
     {
         interface IMockComponent { }
         class MockComponent : MonoBehaviour, IMockComponent { }
@@ -19,21 +19,21 @@ namespace UnityHelpers.Tests
         [Test]
         public void HasComponentFalseWhenNoComponentExists()
         {
-            var obj = CreateGameObject();
+            var obj = new GameObject();
             Assert.IsFalse(obj.HasComponentOrInterface<MockComponent>());
         }
 
         [Test]
         public void HasComponentFalseWhenNoComponentInterfaceExists()
         {
-            var obj = CreateGameObject();
+            var obj = new GameObject();
             Assert.IsFalse(obj.HasComponentOrInterface<IMockComponent>());
         }
 
         [Test]
         public void HasComponentTrueWhenComponentExists()
         {
-            var obj = CreateGameObject();
+            var obj = new GameObject();
             obj.AddComponent<MockComponent>();
             Assert.IsTrue(obj.HasComponentOrInterface<MockComponent>());
         }
@@ -41,7 +41,7 @@ namespace UnityHelpers.Tests
         [Test]
         public void HasComponentTrueWhenComponentInterfaceExists()
         {
-            var obj = CreateGameObject();
+            var obj = new GameObject();
             obj.AddComponent<MockComponent>();
             Assert.IsTrue(obj.HasComponentOrInterface<IMockComponent>());
         }
@@ -49,21 +49,21 @@ namespace UnityHelpers.Tests
         [Test]
         public void GetsNullComponentWhenNoComponentExists()
         {
-            var obj = CreateGameObject();
+            var obj = new GameObject();
             Assert.IsNull(obj.GetComponentOrInterface<MockComponent>());
         }
 
         [Test]
         public void GetsNullComponentWhenNoComponentInterfaceExists()
         {
-            var obj = CreateGameObject();
+            var obj = new GameObject();
             Assert.IsNull(obj.GetComponentOrInterface<IMockComponent>());
         }
 
         [Test]
         public void GetsComponent()
         {
-            var obj = CreateGameObject();
+            var obj = new GameObject();
             var comp = obj.AddComponent<MockComponent>();
             Assert.AreEqual(comp, obj.GetComponentOrInterface<MockComponent>());
         }
@@ -71,7 +71,7 @@ namespace UnityHelpers.Tests
         [Test]
         public void GetsComponentInterface()
         {
-            var obj = CreateGameObject();
+            var obj = new GameObject();
             var comp = obj.AddComponent<MockComponent>();
             Assert.AreEqual(comp, obj.GetComponentOrInterface<IMockComponent>());
         }   
@@ -79,21 +79,21 @@ namespace UnityHelpers.Tests
         [Test]
         public void GetsNoComponentsWhenNoneExists()
         {
-            var obj = CreateGameObject();
+            var obj = new GameObject();
             Assert.AreEqual(0, obj.GetAllComponentsOrInterfaces<MockComponent>().Count());
         }
 
         [Test]
         public void GetsNoComponentInterfacesWhenNoneExists()
         {
-            var obj = CreateGameObject();
+            var obj = new GameObject();
             Assert.AreEqual(0, obj.GetAllComponentsOrInterfaces<IMockComponent>().Count());
         }
 
         [Test]
         public void GetsAllComponents()
         {
-            var obj = CreateGameObject();
+            var obj = new GameObject();
             var comp1 = obj.AddComponent<MockComponent>();
             var comp2 = obj.AddComponent<MockComponent>();
 
@@ -107,7 +107,7 @@ namespace UnityHelpers.Tests
         [Test]
         public void GetsAllComponentInterfaces()
         {
-            var obj = CreateGameObject();
+            var obj = new GameObject();
             var comp1 = obj.AddComponent<MockComponent>();
             var comp2 = obj.AddComponent<AnotherMockComponent>();
 
@@ -121,7 +121,7 @@ namespace UnityHelpers.Tests
         [Test]
         public void AddsChildObject()
         {
-            var parent = CreateGameObject();
+            var parent = new GameObject();
             var child = parent.AddChild();
             Assert.AreEqual(parent.transform, child.transform.parent);
         }
@@ -129,7 +129,7 @@ namespace UnityHelpers.Tests
         [Test]
         public void AddsChildObjectWithComponent()
         {
-            var parent = CreateGameObject();
+            var parent = new GameObject();
             var childComponent = parent.AddChild<MockComponent>();
             Assert.AreEqual(parent.transform, childComponent.transform.parent);
         }
@@ -137,7 +137,7 @@ namespace UnityHelpers.Tests
         [Test]
         public void AddsNamedChildObject()
         {
-            var parent = CreateGameObject();
+            var parent = new GameObject();
             var child = parent.AddChild("Test Child Game Object");
             Assert.AreEqual("Test Child Game Object", child.name);
         }
@@ -145,7 +145,7 @@ namespace UnityHelpers.Tests
         [Test]
         public void AddsNamedChildObjectWithComponent()
         {
-            var parent = CreateGameObject();
+            var parent = new GameObject();
             var child = parent.AddChild<MockComponent>("Test Child Game Object");
             Assert.AreEqual("Test Child Game Object", child.name);
         }
@@ -153,7 +153,7 @@ namespace UnityHelpers.Tests
         [Test]
         public void AddsChildObjectWithComponents()
         {
-            var parent = CreateGameObject();
+            var parent = new GameObject();
             var child = parent.AddChild(typeof(MockComponent), typeof(AnotherMockComponent));
 
             var all = child.GetAllComponentsOrInterfaces<IMockComponent>();

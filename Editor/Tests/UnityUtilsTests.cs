@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace UnityHelpers.Tests
 {
-    public class UnityUtilsTests : UnityUnitTest
+    public class UnityUtilsTests
     {
         [SetUp]
         public void Init()
@@ -26,7 +26,7 @@ namespace UnityHelpers.Tests
         [Test]
         public void DoesNotReturnAnyObjectsWithoutASpriteRenderer()
         {
-            var obj = CreateGameObject();
+            var obj = new GameObject();
             obj.transform.localPosition = new Vector3(-10, -10, 0);
             obj.AddComponent<BoxCollider2D>().size = new Vector2(100, 100);            
 
@@ -40,7 +40,7 @@ namespace UnityHelpers.Tests
         [Test]
         public void DoesNotReturnARendererNotUnderThePoint()
         {
-            var obj = CreateGameObject();
+            var obj = new GameObject();
             obj.transform.localPosition = new Vector3(-1000, -1000, 0);
             obj.AddComponent<BoxCollider2D>().size = new Vector2(100, 100);
             obj.AddComponent<SpriteRenderer>().sortingOrder = 10;
@@ -53,12 +53,12 @@ namespace UnityHelpers.Tests
         [Test]
         public void ReturnsRenderersCorrectlySortedBySortingOrder()
         {
-            var obj1 = CreateGameObject();
+            var obj1 = new GameObject();
             obj1.transform.localPosition = new Vector3(-10, -10, 0);
             obj1.AddComponent<BoxCollider2D>().size = new Vector2(100, 100);
             obj1.AddComponent<SpriteRenderer>().sortingOrder = 10;
 
-            var obj2 = CreateGameObject();
+            var obj2 = new GameObject();
             obj2.transform.localPosition = new Vector3(-10, -10, 0);
             obj2.AddComponent<BoxCollider2D>().size = new Vector2(100, 100);
             obj2.AddComponent<SpriteRenderer>().sortingOrder = 3;
