@@ -1,3 +1,9 @@
+---
+```
+I havent updated this project in a long time, so I have archived it. Please dont use it unless you are aware that its probably very much out of date :)
+```
+---
+
 Unity-Helpers
 =============
 
