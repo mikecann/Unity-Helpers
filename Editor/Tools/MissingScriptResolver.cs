@@ -242,8 +242,10 @@ This component's properties are shown below to help you determine which script i
 
 				// Save the scene in case Unity crashes
 				EditorUtility.SetDirty( this.target );
-				EditorApplication.SaveScene();
-				EditorApplication.SaveAssets();
+
+				// Save the current scene
+                		EditorSceneManager.SaveScene(SceneManager.GetActiveScene(), SceneManager.GetActiveScene().path);
+                		AssetDatabase.SaveAssets();
 
 				// Check for more objects with missing scripts
 				if( Selection.activeGameObject.activeInHierarchy )
